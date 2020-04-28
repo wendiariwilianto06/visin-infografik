@@ -7,6 +7,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <title>Visin Google Charts</title>
 <link rel="stylesheet" href="<?php echo base_url('vendor/uikit/css/'); ?>uikit.css">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+    body {
+        background-color: #008B8B;
+    }
+</style>
 
 
 
