@@ -9,7 +9,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <style>
     body {
-        background-color: #008B8B;
+        background-image: url('assets/bg.jpg');
+        background-size: cover;
     }
 </style>
 
@@ -23,25 +24,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     region['dataStr'] = '<?php echo $region;?>';        
     region['dataArray'] = JSON.parse(region['dataStr']);
 
-    var sales=[];
-    sales['dataStr'] = '<?php echo $sales;?>';        
-    sales['dataArray'] = JSON.parse(sales['dataStr']); 
 
-    var produk=[];
-    produk['dataStr'] = '<?php echo $produk;?>';        
-    produk['dataArray'] = JSON.parse(produk['dataStr']);
+    var jenis=[];
+    jenis['dataStr'] = '<?php echo $jenis;?>';        
+    jenis['dataArray'] = JSON.parse(jenis['dataStr']); 
 
-    var bulanan=[];
-    bulanan['dataStr'] = '<?php echo $bulanan;?>';        
-    bulanan['dataArray'] = JSON.parse(bulanan['dataStr']);  
+
+    var tahun=[];
+    tahun['dataStr'] = '<?php echo $tahun;?>';        
+    tahun['dataArray'] = JSON.parse(tahun['dataStr']);  
 
     //menggambar grafik
     google.charts.setOnLoadCallback(function(){
-        drawChart(region['dataArray'], 'pie','region'); 
-        drawChart(sales['dataArray'],'bar','sales'); 
-        drawChart(produk['dataArray'],'bar','produk');
-        drawChart(bulanan['dataArray'],'bar','bulanan');     
+        drawChart(region['dataArray'],'pie','region'); 
+        drawChart(jenis['dataArray'],'bar','jenis'); 
+        drawChart(tahun['dataArray'],'bar','tahun');   
     });
+
+
+
     // Menentukan data yang akan ditampilkan
     function drawChart(dataArray,type,container) {
         // Membuat data tabel yang sesuai dengan format google chart dari sumber data array javascript
@@ -73,51 +74,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 <nav class="uk-navbar-container uk-margin" uk-navbar>
-    <div class="uk-navbar-left">
-        <a class="uk-navbar-item uk-logo" href="#">Analisis Penjualan</a>
+    <div class="uk-navbar-center">
+        <a class="uk-navbar-item uk-logo" href="#" style="text-align:center">Profil Sarana Kesehatan Provinsi RIAU</a>
     </div>
 </nav>
 <div class="uk-container">
     <div class="uk-child-width-1-2@s" uk-grid uk-height-match="target: > div > .uk-card">    
         <div>
             <div class="uk-card uk-card-default uk-card-small uk-card-body" >
-                <h3 class="uk-card-title">Penjualan Berdasarkan Region</h3>
+                <h3 class="uk-card-title">Jumlah Sarana Kesehatan Berdasarkan Kabupaten/Kota</h3>
                 <div id="region" style="height:350px;"></div>
             </div>
         </div>
         <div>
             <div class="uk-card uk-card-default uk-card-small uk-card-body" >
-                <h3 class="uk-card-title">Hasil Penjualan Oleh Sales</h3>
-                <div id="sales" style="height:350px;"></div>
+                <h3 class="uk-card-title">Jumalah Sarana Kesehatan 2019</h3>
+                <div id="jenis" style="height:350px;"></div>
             </div>
         </div>
         <div>
             <div class="uk-card uk-card-default uk-card-small uk-card-body" >
-                <h3 class="uk-card-title">Produk Terlaris</h3>
-                <div id="produk" style="height:350px;"></div>
+                <h3 class="uk-card-title">Peningkatan Sarana Kesehatan Tahun 2019</h3>
+                <div id="tahun" style="height:350px;"></div>
             </div>
         </div>
         <div>
-            <div class="uk-card uk-card-default uk-card-small uk-card-body" >
-                <h3 class="uk-card-title">Penjualan Bulanan</h3>
-                <div id="bulanan" style="height:350px;"></div>
-            </div>
         </div>
     </div>
 </div>
 
-
-
-
-
-
-
-
-
-</head>
 <body>
-<div class="uk-flex uk-flex-column uk-flex-middle uk-flex-center uk-height-viewport" style="background-color:#ccc; height:300px;">
+<div class="uk-flex uk-flex-column uk-flex-middle uk-flex-center" style="background-color:#; height:300px;">
 <div id="diagram-pie"></div>
 </div>
 <script src="<?php echo base_url('vendor/uikit/js/'); ?>uikit.js"></script>
 </body>
+
+</head>
+</html>

@@ -6,11 +6,13 @@ public function index()
         $dataUrl=base_url('assets/data_row.json');
         $dataStringJson=file_get_contents($dataUrl);
         $dataJson=json_decode($dataStringJson);
-        $data=$dataJson[2]->data;      
+
+        $data=$dataJson[2]->data; 
+
         $output['region']=$this->region($data);
-        $output['sales']=$this->sales($data);
-        $output['produk']=$this->produk($data); 
-        $output['bulanan']=$this->bulanan($data);
+        $output['jenis']=$this->jenis($data);
+        $output['tahun']=$this->tahun($data); 
+
         $this->load->view('visin',$output);        
     }
 
@@ -21,15 +23,15 @@ public function index()
         {
             if(isset($result[$row->Region]) == false)
             {
-                $result[$row->Region]=$row->Units;
+                $result[$row->Region]=$row->Jumlah;
             }else{
-                $units=$result[$row->Region];
-                $result[$row->Region]=$units + $row->Units;
+                $Jumlah=$result[$row->Region];
+                $result[$row->Region]=$Jumlah + $row->Jumlah;
             }
         };
     //konversi dalam format tabulasi
         $keys=array_keys($result);
-        $tabs=[['Region','Units']];
+        $tabs=[['Region','Jumlah']];
         foreach($keys as $row)
         {
             $dt=[$row,$result[$row]];
@@ -38,17 +40,17 @@ public function index()
         return json_encode($tabs);
     }
 
-    function sales($data)
+    function jenis($data)
     {
         $result=array();
         foreach($data as $row)
         {
-            if(isset($result[$row->Rep]) == false)
+            if(isset($result[$row->Jenis]) == false)
             {
-                $result[$row->Rep]=$row->Units;
+                $result[$row->Jenis]=$row->Jumlah;
             }else{
-                $units=$result[$row->Rep];
-                $result[$row->Rep]=$units + $row->Units;
+                $Jumlah=$result[$row->Jenis];
+                $result[$row->Jenis]=$Jumlah + $row->Jumlah;
             }
         };
 
@@ -56,7 +58,7 @@ public function index()
         arsort($result);
         //konversi dalam format tabulasi
         $keys=array_keys($result);
-        $tabs=[['Sales','Units']];
+        $tabs=[['Jenis','Jumlah']];
         foreach($keys as $row)
         {
             $dt=[$row,$result[$row]];
@@ -65,73 +67,29 @@ public function index()
         return json_encode($tabs);
     }
 
-        function produk($data)
+    function tahun($data)
     {
         $result=array();
         foreach($data as $row)
         {
-            if(isset($result[$row->Item]) == false)
+            if(isset($result[$row->Tahun]) == false)
             {
-                $result[$row->Item]=$row->Units;
+                $result[$row->Tahun]=$row->Jumlah;
             }else{
-                $units=$result[$row->Item];
-                $result[$row->Item]=$units + $row->Units;
+                $Jumlah=$result[$row->Tahun];
+                $result[$row->Tahun]=$Jumlah + $row->Jumlah;
             }
         };
         //sorting data berdasarkan value array secara menurun
         arsort($result);
         //konversi dalam format tabulasi
         $keys=array_keys($result);
-        $tabs=[['Produk','Units']];
+        $tabs=[['Tahun','Jumlah']];
         foreach($keys as $row)
         {
             $dt=[$row,$result[$row]];
             array_push($tabs,$dt);
         }
         return json_encode($tabs);
-    }
-function bulanan($data)
-{
-    $result=array();
-    foreach($data as $row)
-    {
-            //mengambil data tanggal
-        $time=strtotime($row->OrderDate);
-        $bulan=date('n',$time);
-        $tahun=date('Y',$time);     
-        if(isset($result[$tahun]) == false)
-        {
-            $result[$tahun][$bulan]=$row->Units;                
-        }else{
-            if(isset($result[$tahun][$bulan]) == false)
-            {
-                $result[$tahun][$bulan]=(int)$row->Units;
-            }else{
-                $result[$tahun][$bulan]=$result[$tahun][$bulan]+ (int) $row->Units;
-            }
         }
     }; 
-    //mengkonversi index data $result kedalam array  
-    $keys=array_keys($result);
-    //membuat data inisial
-    $tabs=[['Bulan']];
-    //menambahkan header data sesuai dengan tahun yang ditemukan
-    foreach($keys as $row)
-    {
-        array_push($tabs[0],(string)$row);
-    }
-    //membuat data bulan dalam satu tahun
-    $bulan=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nop','Des'];
-    //memasukkan data penjualan bulanan kedalam tabulasi
-    for($i=1; $i<=12; $i++)
-    {
-        $dt=[$bulan[$i-1]];
-        foreach($keys as $row)
-        {
-            array_push($dt,(int)$result[$row][$i]);
-        }
-        array_push($tabs,$dt);
-    }
-    return json_encode($tabs);   
-}
-}
